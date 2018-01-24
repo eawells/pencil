@@ -1,13 +1,13 @@
 public class Paper {
 
-    private String content = "";
+    private StringBuilder content = new StringBuilder("");
 
     public String getText() {
-        return content;
+        return content.toString();
     }
 
     public void write(String text) {
-        content += text;
+        content.append(text);
     }
 
     public void erase(String text) {
@@ -15,8 +15,19 @@ public class Paper {
         int terminatingIndex = firstLetterIndex + text.length();
         String erasedWord = text.replaceAll(".", " ");
 
-        StringBuilder newText = new StringBuilder(content);
-        newText.replace(firstLetterIndex, terminatingIndex, erasedWord);
-        content = newText.toString();
+        content.replace(firstLetterIndex, terminatingIndex, erasedWord);
+    }
+
+    public void insert(String insertedText, int startingIndex) {
+        int insertedTextCounter = 0;
+        for (int i = startingIndex; i < startingIndex + insertedText.length(); i++) {
+            if (content.charAt(i) == ' ') {
+                content.replace(i, i + 1, insertedText.substring(insertedTextCounter, insertedTextCounter+1));
+            }
+            else {
+                content.replace(i, i+1, "@");
+            }
+            insertedTextCounter += 1;
+        }
     }
 }

@@ -73,11 +73,18 @@ public class PaperTest {
     }
 
     @Test
-    public void givenPaperWithAFullSentenceWithTheSameWordTwiceConsecutiveErasesOccursTwice() {
-        paper.write("How much wood would a woodchuck chuck if a woodchuck could chuck wood?");
+    public void givenPaperWithAnErasedWordAWordOfEqualLengthCanBeInserted() {
+        paper.write("could chuck wood?");
         paper.erase("chuck");
-        paper.erase("chuck");
-        assertEquals("How much wood would a woodchuck chuck if a wood      could       wood?", paper.getText());
+        paper.insert("cat",6);
+        assertEquals("could cat   wood?", paper.getText());
     }
 
+    @Test
+    public void givenPaperWithAnErasedWordAWordOfGreaterLengthCanBeInsertedWithConflict() {
+        paper.write("could chuck wood?");
+        paper.erase("chuck");
+        paper.insert("elephant",6);
+        assertEquals("could elepha@@od?", paper.getText());
+    }
 }
